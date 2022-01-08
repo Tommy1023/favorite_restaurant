@@ -6,8 +6,11 @@ const port = 3000
 //require express-handlebars
 const exphbs = require('express-handlebars')
 
+// load JSON
+const restaurantList = require('./restaurant.json')
+
 app.get('/', (req, res) => {
-  res.render('index')
+  res.render('index', {restaurant: restaurantList.results})
 })
 
 app.listen(port, () => {
