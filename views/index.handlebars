@@ -44,9 +44,9 @@
               <a href="/restaurants/{{this._id}}/edit">
                 <i class="fas fa-edit"></i>
               </a>
-              <a href="/restaurants/{{this._id}}/delete">
-                <i class="fas fa-trash-alt"></i>
-              </a>
+              <form action="/restaurants/{{this._id}}/?_method=delete" method="post">
+                  <button type="submit" class="btn btn-primary">Delete</button>
+              </form>
             </div>
           </div>
         {{/each}}
