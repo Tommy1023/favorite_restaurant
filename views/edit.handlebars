@@ -27,7 +27,7 @@
         </div>
         <div class="mb-3">
           <label for="image" class="form-label">餐廳照片</label>
-          <input type="text" class="form-control" id="image" name="image" placeholder="必填 (圖片連結)" required='true'
+          <input type="url" class="form-control" id="image" name="image" placeholder="必填 (圖片連結)" required='true'
             value="{{restaurant.image}}">
         </div>
         <div class="mb-3">
@@ -37,7 +37,7 @@
         </div>
         <div class="mb-3">
           <label for="phone" class="form-label">電話</label>
-          <input type="text" class="form-control" id="phone" name="phone" placeholder="必填 ex:02 2570 1255"
+          <input type="tel" class="form-control" id="phone" name="phone" placeholder="必填 ex:02 2570 1255"
             required='true' value="{{restaurant.phone}}">
         </div>
         <div class="mb-3">
@@ -47,7 +47,7 @@
         </div>
         <div class="mb-3">
           <label for="rating" class="form-label">評價</label>
-          <input type="text" class="form-control" id="rating" name="rating" max="5" min="0"
+          <input type="number" class="form-control" id="rating" name="rating" max="5" min="0"
             placeholder="必填 ex:4.7 (最高5分)" required='true' value="{{restaurant.rating}}">
         </div>
         <div class="mb-3">
