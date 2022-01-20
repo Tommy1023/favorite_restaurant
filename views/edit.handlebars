@@ -1,0 +1,63 @@
+<div class="contain">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2>編輯餐廳資訊</h2>
+      <form action="/restaurants/{{restaurant._id}}/edit" method="post">
+        <div class="my-3">
+          <label for="name" class="form-label">餐廳名稱</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="必填 ex:布娜飛比利時啤酒餐廳" required="true"
+            value="{{restaurant.name}}">
+        </div>
+        <div class="mb-3">
+          <label for="name_en" class="form-label">英文名稱</label>
+          <input type="text" class="form-control" id="name_en" name="name_en" placeholder="必填 ex:Bravo Beer"
+            required='true' value="{{restaurant.name_en}}">
+        </div>
+        <div class="mb-3">
+          <label for="category" class="form-label">類別</label>
+          <input type="text" class="form-control" id="category" name="category" placeholder="必填 ex:義式餐廳"
+            list="optionList" required='true' value="{{restaurant.category}}">
+          <datalist id="optionList">
+            <option>美式</option>
+            <option>咖啡</option>
+            <option>中東料理</option>
+            <option>日本料理</option>
+            <option>義式餐廳</option>
+          </datalist>
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">餐廳照片</label>
+          <input type="text" class="form-control" id="image" name="image" placeholder="必填 (圖片連結)" required='true'
+            value="{{restaurant.image}}">
+        </div>
+        <div class="mb-3">
+          <label for="location" class="form-label">地址</label>
+          <input type="text" class="form-control" id="location" name="location" placeholder="必填 ex:台北市松山區市民大道四段 185 號"
+            required='true' value="{{restaurant.location}}">
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">電話</label>
+          <input type="text" class="form-control" id="phone" name="phone" placeholder="必填 ex:02 2570 1255"
+            required='true' value="{{restaurant.phone}}">
+        </div>
+        <div class="mb-3">
+          <label for="google_map" class="form-label">google map</label>
+          <input type="text" class="form-control" id="google_map" name="google_map"
+            placeholder="必填 ex:https://goo.gl/maps/V9mKwVJ4s5v" required='true' value="{{restaurant.google_map}}">
+        </div>
+        <div class="mb-3">
+          <label for="rating" class="form-label">評價</label>
+          <input type="text" class="form-control" id="rating" name="rating" max="5" min="0"
+            placeholder="必填 ex:4.7 (最高5分)" required='true' value="{{restaurant.rating}}">
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">餐廳簡介</label>
+          <input type="text" class="form-control" id="description" name="description" placeholder="必填" required='true'
+            value="{{restaurant.description}}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
