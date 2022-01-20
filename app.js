@@ -35,7 +35,18 @@ app.get('/', (req, res) => {
   Restaurant.find()
     .lean()
     .then(restaurant => res.render('index', { restaurant }))
-    .catch(error => console.log(error))
+    .catch(err => {
+      console.log(err)
+      res.render(
+        'errorPage',
+        { status: 500, error: err.message }
+      )
+    })
+})
+
+//Add new restaurant page
+app.get("/restaurants/new", (req, res) => {
+  res.render("new")
 })
 
 //restaurant details
@@ -43,19 +54,26 @@ app.get('/restaurants/:id', (req, res) => {
     Restaurant.findById(req.params.id)
       .lean()
       .then(restaurant => res.render('show', { restaurant: restaurant }))
-      .catch(error => console.log(error))
-})
-
-//Add new restaurant page
-app.get("/restaurant/new", (req, res) => {
-  res.render("new")
+      .catch(err => {
+        console.log(err)
+        res.render(
+          'errorPage',
+          { status: 500, error: err.message }
+        )
+      })
 })
 
 //Add restaurant
 app.post('/restaurants', (req, res) => {
   Restaurant.create(req.body)
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(err => {
+      console.log(err)
+      res.render(
+        'errorPage', 
+        { status: 500, error: err.message }
+      )
+    })
 })
 
 //Edit restaurant
@@ -63,7 +81,13 @@ app.get('/restaurants/:id/edit', (req, res) => {
   Restaurant.findById(req.params.id)
     .lean()
     .then(restaurant => res.render('edit', { restaurant: restaurant }))
-    .catch(error => console.log(error))
+    .catch(err => {
+      console.log(err)
+      res.render(
+        'errorPage', 
+        { status: 500, error: err.message }
+      )
+    })
 })
 
 //save restaurant
@@ -71,14 +95,26 @@ app.post('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
     Restaurant.findByIdAndUpdate(id, req.body)
     .then(() => res.redirect(`/restaurants/${id}`))
-    .catch(error => console.log(error))
+    .catch(err => {
+      console.log(err)
+      res.render(
+        'errorPage', 
+        { status: 500, error: err.message }
+      )
+    })
 })
 
 //delete restaurant
 app.get('/restaurants/:id/delete', (req, res) => {
   Restaurant.findByIdAndRemove(req.params.id)
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(err => {
+      console.log(err)
+      res.render(
+        'errorPage', 
+        { status: 500, error: err.message }
+      )
+    })
 })
 
 // //Search Keyword
@@ -97,7 +133,13 @@ app.get('/search', (req, res) => {
       )
       res.render('index',{restaurant: filterRestaurant, keyword: keyword})
     })
-    .catch(error => console.log(error))
+    .catch(err => {
+      console.log(err)
+      res.render(
+        'errorPage', 
+        { status: 500, error: err.message }
+      )
+    })
 })
 
 
