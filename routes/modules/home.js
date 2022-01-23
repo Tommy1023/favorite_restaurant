@@ -2,9 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Restaurant = require('../../models/restaurant')
 
-// render all restaurant
+// render all restaurant & search
 router.get('/', (req, res) => {
-  
 
   Restaurant.find()
     .lean()
@@ -12,7 +11,7 @@ router.get('/', (req, res) => {
       const keyword = req.query.keyword
       
       if (!keyword) {
-        res.render('index', { restaurant: restaurants })
+        res.render('index', { restaurant: restaurants})
       }else {
         const keywordLowerCase = keyword.replace(/\s*/g, "").toLowerCase()
         const filterRestaurant = restaurants.filter(
@@ -29,6 +28,18 @@ router.get('/', (req, res) => {
         'errorPage',
         { status: 500, error: err.message }
       )
+    })
+})
+
+// sort function
+router.get('/sort/:sort', (req, res) => {
+  const sort = req.params.sort
+  
+  Restaurant.find()
+    .lean()
+    .sort(sort)
+    .then(restaurants => {
+      res.render('index', {restaurant: restaurants})
     })
 })
 
