@@ -1,17 +1,26 @@
 //require express modules
 const express = require('express')
+const session = require('express-session')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+
 const routes = require('./routes')
 require('./config/mongoose')
 
 const app = express()
-const port = 3000
+const PORT = 3000
 
 //setting view engine
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
+//setting session
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
+
 //setting static files
 app.use(express.static('public'))
 //user body-parser urlencoded
@@ -20,6 +29,6 @@ app.use(methodOverride('_method'))
 app.use(routes)
 
 
-app.listen(port, () => {
-  console.log(`Express is listening on http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`Express is listening on http://localhost:${PORT}`)
 })
