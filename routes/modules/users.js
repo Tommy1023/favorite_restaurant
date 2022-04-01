@@ -30,7 +30,9 @@ router.post('/register', (req, res) => {
         password
       })
     })
-    .then(() => res.redirect('/users/login'))
+    .then(() => {
+      req.logout()
+      res.redirect('/users/login')})
     .catch(err => {
       console.log(err)
       res.render(
