@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const userPassport = require('./config/passport')
+const flash =require('connect-flash')
 
 const routes = require('./routes')
 require('./config/mongoose')
@@ -27,11 +28,17 @@ app.use(express.static('public'))
 //user body-parser urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+
+//call passport function
 userPassport(app)
+
+app.use(flash())
 //middleware for view
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.isAuthenticated() 
+  res.locals.isAuthenticated = req.isAuthenticated()  
   res.locals.user = req.user
+  res.locals.success_msg = req.flash('success_msg') //設定success_msg訊息
+  res.locals.warning_msg = req.flash('warning_msg') //設定warning_msg訊息
   next()
 })
 

@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Tommy1023/favorite_restaurant#readme",
   "dependencies": {
     "body-parser": "^1.19.1",
+    "connect-flash": "^0.1.1",
     "express": "^4.17.2",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.17.2",
