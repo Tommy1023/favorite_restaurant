@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 
+const MONGODB_URI = process.env.MONGODB_URI
 //connect mongodb
-mongoose.connect('mongodb://localhost/restaurantList')
+mongoose.connect(MONGODB_URI)
 
 // set mongodb
 const db = mongoose.connection
