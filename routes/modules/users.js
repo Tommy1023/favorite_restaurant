@@ -1,6 +1,6 @@
 const express = require('express')
 const passport = require('passport')
-const { rawListeners } = require('../../models/user')
+const bcrypt = require('bcryptjs')
 const router = express.Router()
 const User = require('../../models/user')
 
@@ -33,30 +33,33 @@ router.post('/register', (req, res) => {
   User.findOne({ email }).then(user => {
       if (user) { 
         errors.push({ message: '這個 Email 已被註冊過!' })
-        res.render('register', {
+        return res.render('register', {
           errors,
           name,
           email,
           password,
           confirmPassword
         })
-      }else {
-        return User.create({
-          name,
-          email,
-          password
-        })
-        .then(() => {
-          req.logout()
-          res.redirect('/users/login')})
-        .catch(err => {
-          console.log(err)
-          res.render(
-            'errorPage',
-            { status: 500, error: err.message }
-          )
-        })
       }
+      return bcrypt
+        .genSalt(10)
+        .then(salt => bcrypt.hash(password, salt))
+        .then(hash => User.create({
+        name,
+        email,
+        password: hash
+      }))
+      .then(() => {
+        req.logout()
+        res.redirect('/users/login')
+      })
+      .catch(err => {
+        console.log(err)
+        res.render(
+          'errorPage',
+          { status: 500, error: err.message }
+        )
+      })
     })
     .catch(err => {
       console.log(err)
