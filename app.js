@@ -42,6 +42,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user
   res.locals.success_msg = req.flash('success_msg') //設定success_msg訊息
   res.locals.warning_msg = req.flash('warning_msg') //設定warning_msg訊息
+  res.locals.login_error_msg = req.flash('login_error_msg') //設定login_error_msg
   next()
 })
 
