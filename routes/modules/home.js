@@ -34,8 +34,8 @@ router.get('/', (req, res) => {
 // sort function
 router.get('/sort/:sort', (req, res) => {
   const sort = req.params.sort
-  
-  Restaurant.find()
+  const userId = req.user._id
+  Restaurant.find({userId})
     .lean()
     .sort(sort)
     .then(restaurants => {
