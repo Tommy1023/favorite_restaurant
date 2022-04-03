@@ -73,7 +73,7 @@ router.post('/register', (req, res) => {
 router.post('/login', passport.authenticate('local', { 
   successRedirect: '/', 
   failureRedirect: '/users/login', 
-  failureFlash: true 
+  failureFlash: true   //將驗證錯誤以flash訊息顯示
   })
 )
 

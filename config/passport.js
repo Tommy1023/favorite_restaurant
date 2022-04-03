@@ -8,6 +8,7 @@ const FacebookStrategy = require('passport-facebook').Strategy
 module.exports = app => {
   app.use(passport.initialize())
   app.use(passport.session())
+  //設定passReqToCallback 及 req.flash把錯誤訊息傳出，再到app.js把req.flash放進res.locals讓前端樣板存取
   passport.use(new LocalStrategy({ usernameField: 'email', passReqToCallback: true }, (req, email, password, done) => {
     User.findOne({ email })
       .then(user => {

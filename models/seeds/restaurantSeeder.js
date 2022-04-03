@@ -7,46 +7,44 @@ const Restaurant = require('../restaurant')
 const restaurantList = require('../../restaurant.json').results
 const User = require('../user')
 const db = require('../../config/mongoose')
+const restaurant = require('../restaurant')
 
-const SEED_USER = {
-  name: 'admin',
-  email: 'admin@example.com',
-  password:'12345'
-}
+const SEED_USERS = [
+  {
+    email: 'user1@example.com',
+    password:'12345678' ,
+    restaurant: restaurantList.slice(0, 3) 
+  },
+  {
+    email: 'user2@example.com',
+    password: '12345678',
+    restaurant: restaurantList.slice(3, 6) 
+  }
+]
 
 db.once('open', () => {
-  User.findOne({ email: SEED_USER.email }).then(user => {
-    if (user) {
-      console.log('Seed已經執過。')
-      process.exit()
-    }
-    bcrypt
+  //利用Promise.all加array.from建立兩筆user data
+  Promise.all(Array.from(SEED_USERS, seedUser => {
+    return bcrypt
     .genSalt(10)
-    .then(salt => bcrypt.hash(SEED_USER.password, salt))
-    .then(hash => User.create({
-      name: SEED_USER.name,
-      email: SEED_USER.email,
-      password: hash
-    },))
+    .then(salt => bcrypt.hash(seedUser.password, salt))
+    .then(hash =>  User.create({
+      email: seedUser.email,
+      password: hash,
+    }))
+    //建立user後便可以取得userId，再利用forEach把userId加入餐廳資料進行關聯
     .then(user => {
       const userId = user._id
-      return Promise.all(restaurantList.map((restaurant) => 
-      Restaurant.create({
-        name: restaurant.name,
-        name_en: restaurant.name_en,
-        category: restaurant.category,
-        image: restaurant.image,
-        location: restaurant.location,
-        phone: restaurant.phone,
-        google_map: restaurant.google_map,
-        rating: restaurant.rating,
-        description: restaurant.description,
-        userId: userId
-      })))
+      seedUser.restaurant.forEach(restaurant => {
+        restaurant.userId = userId        
+      })
+      //建立加入userId後的餐廳資料
+      return Restaurant.create(seedUser.restaurant)
     })
+  }))
     .then(() => {
-      console.log('restaurantSeeder done!')
-      process.exit()
-    })
+    console.log('restaurantSeeder done!')
+    process.exit()
   })
+  .catch(err => console.log(err))
 })
